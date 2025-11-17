@@ -1,5 +1,6 @@
 import datetime, os, time, webbrowser, pyautogui
 import speech_recognition as sr
+print(sr.Microphone.list_microphone_names())
 import pyttsx3
 from fuzzywuzzy import fuzz
 
@@ -18,18 +19,35 @@ def speak(text):
 
 # ---------- Listener ----------
 recognizer = sr.Recognizer()
+recognizer = sr.Recognizer()
+
 def listen(timeout=7, phrase_time_limit=5):
-    with sr.Microphone() as source:
-        if log_to_gui:
-            log_to_gui("Listening...")
-        audio = recognizer.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
     try:
-        command = recognizer.recognize_google(audio, language="en-in")
+        # Try microphone first
+        with sr.Microphone(device_index=6) as source:
+            if log_to_gui:
+                log_to_gui("Listening...")
+            recognizer.adjust_for_ambient_noise(source, duration=0.3)
+            audio = recognizer.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
+
+        # Try speech-to-text
+        try:
+            command = recognizer.recognize_google(audio, language="en-in")
+            if log_to_gui:
+                log_to_gui(f"You (voice): {command}")
+            return command.lower()
+
+        except Exception:
+            # Speech not recognized, fall back to text
+            if log_to_gui:
+                log_to_gui("Voice not recognized. Switching to text mode.")
+            return input("You (text): ").strip().lower()
+
+    except Exception as e:
+        # Microphone completely unavailable
         if log_to_gui:
-            log_to_gui(f"You: {command}")
-        return command.lower()
-    except:
-        return ""
+            log_to_gui(f"Mic unavailable ({e}). Switching to text mode.")
+        return input("You (text): ").strip().lower()
 
 
 # ---------- Wake word ----------
