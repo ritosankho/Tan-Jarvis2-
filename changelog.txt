@@ -1,0 +1,5 @@
+24/11/25 commit: 
+    1. Added main.py
+    2. Added input from web gui
+    3. Added enter key to send
+    4. Fixed some typos

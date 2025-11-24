@@ -12,12 +12,13 @@ body {
   border: 2px solid #00ffcc;
   padding: 20px;
   border-radius: 10px;
-  width: 400px;
+  width: 1000px;
   background: rgba(0, 0, 0, 0.8);
 }
 
 #chat {
-  height: 300px;
+  height: 700px;
+  width: 700px;
   overflow-y: auto;
   margin: 10px 0;
   padding: 10px;

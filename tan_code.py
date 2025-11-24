@@ -1,8 +1,14 @@
 import datetime, os, time, webbrowser, pyautogui
 import speech_recognition as sr
-print(sr.Microphone.list_microphone_names())
+
 import pyttsx3
 from fuzzywuzzy import fuzz
+
+from queues import incoming_queue
+
+import threading
+import asyncio
+import websockets
 
 log_to_gui = None  # Will be injected from gui_server
 
@@ -21,8 +27,16 @@ def speak(text):
 recognizer = sr.Recognizer()
 recognizer = sr.Recognizer()
 
-def listen(timeout=7, phrase_time_limit=5):
+def listen(timeout=100, phrase_time_limit=5):
     try:
+        # Wait for a message from the queue (block for at most `timeout` seconds)
+        return incoming_queue.get(timeout=timeout)
+    except incoming_queue.empty:
+        # If no message arrives in time, fallback to input()
+        return input()
+        
+
+    '''try:
         # Try microphone first
         with sr.Microphone(device_index=6) as source:
             if log_to_gui:
@@ -47,7 +61,8 @@ def listen(timeout=7, phrase_time_limit=5):
         # Microphone completely unavailable
         if log_to_gui:
             log_to_gui(f"Mic unavailable ({e}). Switching to text mode.")
-        return input("You (text): ").strip().lower()
+        return input("You (text): ").strip().lower()'''
+
 
 
 # ---------- Wake word ----------
@@ -119,4 +134,6 @@ def start_ai(logger=None):
     global log_to_gui
     log_to_gui = logger
     tan_loop()
+
+
 

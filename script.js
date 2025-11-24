@@ -14,10 +14,12 @@ ws.onmessage = (event) => {
   chat.scrollTop = chat.scrollHeight;
 };
 
-function sendMessage() {
-  let input = document.getElementById("input");
-  if (input.value.trim() !== "") {
+const input = document.getElementById("input");
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && input.value !== "") {
     ws.send(input.value);
     input.value = "";
   }
-}
+});
+
