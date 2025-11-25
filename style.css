@@ -17,6 +17,10 @@ body {
 }
 
 #chat {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-x: auto;
   height: 700px;
   width: 700px;
   overflow-y: auto;

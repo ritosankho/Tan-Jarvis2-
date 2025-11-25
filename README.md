@@ -119,3 +119,5 @@ Developed by Samriddha Das
 Inspired by J.A.R.V.I.S — bringing AI to your desktop.
 
 If you like this project, give it a star on GitHub!
+
+This is a fork from Sammriddha's repository where I intend to add more linux-friendlyness and hopefully, a local llm

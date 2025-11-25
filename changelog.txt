@@ -3,3 +3,8 @@
     2. Added input from web gui
     3. Added enter key to send
     4. Fixed some typos
+
+25/11/25 commit:
+    1. Big imporvement. Added Triangulum-10B-Q8_0 llm via llama cpp
+    2. Changed GUI chat <div id = 'chat'> to <pre id='chat'>
+    3. Disabled text to speech for now.

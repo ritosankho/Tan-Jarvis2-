@@ -9,6 +9,7 @@ from queues import incoming_queue
 import threading
 import asyncio
 import websockets
+from llm import run_llm
 
 log_to_gui = None  # Will be injected from gui_server
 
@@ -20,8 +21,8 @@ def speak(text):
     print(f"Tan: {text}")
     if log_to_gui:
         log_to_gui(f"Tan: {text}")
-    engine.say(text)
-    engine.runAndWait()
+    #engine.say(text)
+    #engine.runAndWait()
 
 # ---------- Listener ----------
 recognizer = sr.Recognizer()
@@ -113,7 +114,8 @@ def handle_command(command):
         speak("Volume decreased")
 
     else:
-        speak("I am not programmed for this yet.")
+        speak(run_llm("Before answering, .Do not correct, expand, autocorrect, infer, or add context. Read my text byte-for-byte.Then answer normally ." +command, "/home/rito/Downloads/Triangulum-10B-Q8_0.gguf")
+)
 
     return True
 
